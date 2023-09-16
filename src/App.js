@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useState } from "react";
+import "./index.css";
+import Header from "./components/Header";
+import Form from "./components/Form";
+import Renderelements from "./components/Renderelements";
+import Footer from "./components/Footer";
 
 function App() {
+  const [array, setarr] = useState([]);
+  const [catgcontrol, setcatgcontrol] = useState(1);
+  const [inputcontrol, setinputcontrol] = useState([]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    let newitem = {
+      catgcontrol,
+      inputcontrol,
+      ispacked: false,
+      id: Date.now(),
+    };
+
+    if (!catgcontrol || !inputcontrol) return;
+
+    setarr((arr) => [...arr, newitem]);
+
+    setcatgcontrol("");
+    setinputcontrol("");
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Form
+        handleSubmit={handleSubmit}
+        catgcontrol={catgcontrol}
+        inputcontrol={inputcontrol}
+        setcatgcontrol={setcatgcontrol}
+        setinputcontrol={setinputcontrol}
+      />
+
+      <Renderelements array={array} setarray={setarr} />
+      <Footer array={array} setarray={setarr} />
+    </>
   );
 }
 
